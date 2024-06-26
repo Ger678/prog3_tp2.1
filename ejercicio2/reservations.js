@@ -35,7 +35,7 @@ class Reservation {
     }
     
     static validateReservation(date, guests){
-        const fechaActual = new Date().toDateString();
+        const fechaActual = new Date().toISOString();
         // const date = new Date(date);
         if(date < fechaActual || guests <= 0){
             // console.log(false);;
