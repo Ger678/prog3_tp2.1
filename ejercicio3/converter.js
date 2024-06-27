@@ -6,11 +6,30 @@ class Currency {
 }
 
 class CurrencyConverter {
-    constructor() {}
+    apiUrl;
+    currencies;
 
-    getCurrencies(apiUrl) {}
+    constructor() {
+        this.apiUrl = "https://cdn.dinero.today/api/latest.json"; 
+        Source: https://dinero.today/pages/api;
+        this.currencies = [];
+    }
 
-    convertCurrency(amount, fromCurrency, toCurrency) {}
+    async getCurrencies() {
+        try {
+            const response = await fetch(`${this.apiUrl}/`);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            console.log(data);
+        } catch (error) {
+            console.error('There has been a problem with your fetch operation:', error);
+        }
+    }
+    
+
+    // convertCurrency(amount, fromCurrency, toCurrency) {}
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -19,7 +38,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const fromCurrencySelect = document.getElementById("from-currency");
     const toCurrencySelect = document.getElementById("to-currency");
 
-    const converter = new CurrencyConverter("https://api.frankfurter.app");
+    const converter = new CurrencyConverter();
 
     await converter.getCurrencies();
     populateCurrencies(fromCurrencySelect, converter.currencies);
