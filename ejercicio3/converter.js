@@ -49,7 +49,9 @@ class CurrencyConverter {
     convertCurrency(amount, fromCurrency, toCurrency) {
         console.log(amount, fromCurrency, toCurrency);
 
-        const rate = Object.keys(this.currencies.rates);
+        const fromCurrencyValue = Othis.currencies.rates[fromCurrency];
+        const toCurrencyValue = Othis.currencies.rates[toCurrency];
+
         debugger;
             // this.currencies.find(toCurrency)
     }
