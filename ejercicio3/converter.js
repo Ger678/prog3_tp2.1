@@ -47,13 +47,23 @@ class CurrencyConverter {
     
 
     convertCurrency(amount, fromCurrency, toCurrency) {
-        console.log(amount, fromCurrency, toCurrency);
+        const fromCurrencyValue = this.currencies.rates[fromCurrency];
+        const toCurrencyValue = this.currencies.rates[toCurrency];
 
-        const fromCurrencyValue = Othis.currencies.rates[fromCurrency];
-        const toCurrencyValue = Othis.currencies.rates[toCurrency];
+        if (!fromCurrencyValue || !toCurrencyValue) {
+            console.error('Invalid currency code');
+            return;
+        }
 
-        debugger;
-            // this.currencies.find(toCurrency)
+        // Convertir el monto a USD (moneda base)
+        const amountInUSD = amount / fromCurrencyValue;
+
+        // Convertir el monto en USD a la moneda de destino
+        const convertedAmount = amountInUSD * toCurrencyValue;
+
+        console.log('Converted amount ', convertedAmount);
+
+        return convertedAmount;
     }
 }
 
@@ -85,8 +95,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         if (convertedAmount !== null && !isNaN(convertedAmount)) {
             resultDiv.textContent = `${amount} ${
-                fromCurrency.code
-            } son ${convertedAmount.toFixed(2)} ${toCurrency.code}`;
+                fromCurrency
+            } son ${convertedAmount.toFixed(2)} ${toCurrency}`;
         } else {
             resultDiv.textContent = "Error al realizar la conversión.";
         }
