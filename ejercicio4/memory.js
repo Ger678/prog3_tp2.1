@@ -22,6 +22,16 @@ class Card {
         return cardElement;
     }
 
+    toggleFlip() {
+        if(!!this.isFlipped){
+            this.#flip();
+        }
+    }
+
+    matches(otherCard){
+        //TODO
+    }
+
     #flip() {
         const cardElement = this.element.querySelector(".card");
         cardElement.classList.add("flipped");
@@ -89,7 +99,7 @@ class MemoryGame {
         }
         this.flipDuration = flipDuration;
         this.board.onCardClick = this.#handleCardClick.bind(this);
-        this.board.reset();
+        // this.board.reset();
     }
 
     #handleCardClick(card) {
@@ -120,6 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ]);
     const board = new Board(cards);
     const memoryGame = new MemoryGame(board, 1000);
+    board.render()
 
     document.getElementById("restart-button").addEventListener("click", () => {
         memoryGame.resetGame();
