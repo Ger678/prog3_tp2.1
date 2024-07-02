@@ -23,13 +23,16 @@ class Card {
     }
 
     toggleFlip() {
-        if(!!this.isFlipped){
+        this.isFlipped = !this.isFlipped;
+        if (this.isFlipped) {
             this.#flip();
+        } else {
+            this.#unflip();
         }
     }
 
-    matches(otherCard){
-        //TODO
+    matches(otherCard) {
+        return this.name === otherCard.name;
     }
 
     #flip() {
@@ -66,6 +69,23 @@ class Board {
     #setGridColumns() {
         const columns = this.#calculateColumns();
         this.fixedGridElement.className = `fixed-grid has-${columns}-cols`;
+    }
+    
+    shuffleCards() {
+        this.cards.sort(() => 0.5 - Math.random());
+    }
+
+    flipDownAllCards() {
+        this.cards.forEach(card => {
+            card.isFlipped = false;
+            card.toggleFlip();
+        });
+    }
+
+    reset() {
+        this.shuffleCards();
+        this.flipDownAllCards();
+        this.render();
     }
 
     render() {
@@ -111,6 +131,30 @@ class MemoryGame {
                 setTimeout(() => this.checkForMatch(), this.flipDuration);
             }
         }
+    }
+
+
+    checkForMatch() {
+        const [card1, card2] = this.flippedCards;
+
+        if (card1.matches(card2)) {
+            this.matchedCards.push(card1, card2);
+        } else {
+            card1.toggleFlip();
+            card2.toggleFlip();
+        }
+
+        this.flippedCards = [];
+
+        if (this.matchedCards.length === this.board.cards.length) {
+            alert("¡Ganaste! Todas las cartas han sido encontradas.");
+        }
+    }
+
+    resetGame() {
+        this.flippedCards = [];
+        this.matchedCards = [];
+        this.board.reset();
     }
 }
 
